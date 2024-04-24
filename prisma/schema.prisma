@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Define model User
+model User {
+  uuid      String   @id @default(uuid())
+  firstName String
+  lastName  String
+  avatar    String?
+  username  String
+  password  String
+  email     String   @unique
+  type      Boolean
+  trips     UserTrip[]
+}
+
+// Define model Trip
+model Trip {
+  uuid         String   @id @default(uuid())
+  description  String
+  name         String
+  startDate    DateTime
+  endDate      DateTime
+  rating       Int
+  locations    Location[]
+  users        UserTrip[]
+  TripLocation TripLocation[]
+}
+
+// Define model Location
+model Location {
+  uuid        String   @id @default(uuid())
+  name        String
+  description String
+  type        Int
+  rating      Int
+  latitude    Float
+  longitude   Float
+  photos      Photo[]
+  trips       TripLocation[]
+  Trip        Trip?          @relation(fields: [tripUuid], references: [uuid])
+  tripUuid    String?
+}
+
+// Define model LocationType
+model LocationType {
+  uuid String   @id @default(uuid())
+  name String
+
+  @@unique([name])
+  // Adding predefined types
+  // These will be seeded to the database when you first migrate
+  @@map("location_types")
+}
+
+// Define model Photo
+model Photo {
+  uuid       String   @id @default(uuid())
+  url        String
+  location   Location @relation(fields: [locationId], references: [uuid])
+  locationId String
+}
+
+// Define model TripLocation
+model TripLocation {
+  trip       Trip     @relation(fields: [tripId], references: [uuid])
+  tripId     String   
+  location   Location @relation(fields: [locationId], references: [uuid])
+  locationId String   
+
+  @@id([tripId, locationId])
+}
+
+// Define model UserTrip
+model UserTrip {
+  user   User @relation(fields: [userId], references: [uuid])
+  userId String
+  trip   Trip @relation(fields: [tripId], references: [uuid])
+  tripId String
+
+  @@id([userId, tripId])
+}
