@@ -51,7 +51,7 @@ model Location {
 // Define model LocationType
 model LocationType {
   uuid String   @id @default(uuid())
-  name String
+  name String   
 
   @@unique([name])
   // Adding predefined types

@@ -4,6 +4,7 @@ import cors from "cors";
 
 //ROUTERS IMPORTS
 import { userRouter } from "./user/user.router";
+import { locationTypeRouter } from "./locationType/locationType.router";
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(express.json());
 
 //ENTITIES ROUTERS
 app.use("/api/user", userRouter);
+app.use("/api/locationType", locationTypeRouter);
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);

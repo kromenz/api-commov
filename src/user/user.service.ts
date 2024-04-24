@@ -1,4 +1,5 @@
 import { db } from "../utils/db.server";
+import { hashPassword } from "../utils/password";
 
 type User = {
   uuid: string;
@@ -10,6 +11,7 @@ type User = {
   password: string;
 };
 
+//get all users
 export const listUsers = async (): Promise<User[]> => {
   return db.user.findMany({
     select: {
@@ -24,6 +26,7 @@ export const listUsers = async (): Promise<User[]> => {
   });
 };
 
+//get user by email
 export const getUser = async (email: string): Promise<User | null> => {
   return db.user.findUnique({
     where: {
@@ -32,23 +35,47 @@ export const getUser = async (email: string): Promise<User | null> => {
   });
 };
 
-// export const updateUser = async (
-//   user: Omit<User, "email">,
-//   email: string
-// ): Promise<User> => {
-//   const { firstName, username } = user;
-//   return db.user.update({
-//     where: {
-//       email,
-//     },
-//     data: {
-//       firstName,
-//       username,
-//     },
-//     select: {
-//       uuid: true,
-//       firstName: true,
-//       username: true,
-//     },
-//   });
-// };
+//create user
+export const createUser = async (userData: User): Promise<User> => {
+  try {
+    const hashedPassword = await hashPassword(userData.password);
+
+    const newUser = await db.user.create({
+      data: {
+        ...userData,
+        password: hashedPassword,
+      },
+    });
+
+    return newUser;
+  } catch (error) {
+    console.error("Error creating user:", error);
+    throw error;
+  }
+};
+
+// Update user by email
+export const updateUser = async (
+  email: string,
+  userData: User
+): Promise<User | null> => {
+  try {
+    const existingUser = await db.user.findUnique({
+      where: { email },
+    });
+
+    if (!existingUser) {
+      return null; // User not found
+    }
+
+    const updatedUser = await db.user.update({
+      where: { email },
+      data: userData,
+    });
+
+    return updatedUser;
+  } catch (error) {
+    console.error("Error updating user:", error);
+    throw error; // Re-throw error for proper handling in the router
+  }
+};
