@@ -4,9 +4,6 @@
   "description": "Jouneys is a mobile app developed as a university project",
   "author": "Diogo Pinheiro, Rafael André, Pedo Simões",
   "main": "index.js",
-  "engines": {
-    "node": "14.x"
-  },
   "prisma": {
     "seed": "node --require esbuild-register prisma/seed.ts"
   },
