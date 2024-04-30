@@ -8,8 +8,8 @@
   },
   "scripts": {
     "start": "nodemon src/index.ts",
-    "ts.check": "tsc --project tsconfig.json",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.ts"
   },
   "keywords": [],
   "author": "",
