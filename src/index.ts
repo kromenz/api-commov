@@ -10,12 +10,6 @@ import { tripRouter } from "./trip/trip.router";
 
 dotenv.config();
 
-if (!process.env.PORT) {
-  process.exit(1);
-}
-
-const PORT: number = parseInt(process.env.PORT as string, 10);
-
 const app = express();
 
 app.use(cors());
@@ -31,8 +25,14 @@ app.use("/api/locationType", locationTypeRouter);
 app.use("/api/photo", photoRouter);
 app.use("/api/trip", tripRouter);
 
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
-});
+if (!process.env.PORT) {
+  process.exit(1);
+}
 
-export default app;
+const PORT: number = parseInt(process.env.PORT as string, 10);
+
+app.listen(PORT, () => {
+  /* eslint-disable no-console */
+  console.log(`Listening: http://localhost:${PORT}`);
+  /* eslint-enable no-console */
+});
