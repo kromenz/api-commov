@@ -1,5 +1,5 @@
 import * as dotenv from "dotenv";
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 
 //ROUTERS IMPORTS
@@ -20,6 +20,10 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.get("/", (_req: Request, res: Response) => {
+  return res.send("Express Typescript in Vercel");
+});
 
 //ENTITIES ROUTERS
 app.use("/api/user", userRouter);
