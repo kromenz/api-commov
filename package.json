@@ -7,10 +7,17 @@
     "seed": "node --require esbuild-register prisma/seed.ts"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/index.ts",
-    "vercel-build": "echo deployed"
+    "start": "nodemon src/index.ts",
+    "build": "rimraf dist && tsc",
+    "ts.check": "tsc --project tsconfig.json",
+    "add-build": "git add dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "pre-commit": [
+    "ts.check",
+    "build",
+    "add-build"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -31,7 +38,9 @@
     "@types/uuid": "^9.0.8",
     "esbuild-register": "^3.5.0",
     "nodemon": "^3.1.0",
+    "pre-commit": "^1.2.2",
     "prisma": "^5.13.0",
+    "rimraf": "^5.0.5",
     "typescript": "^5.4.5"
   }
 }
