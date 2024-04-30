@@ -27,6 +27,28 @@ userRouter.get("/:email", async (request: Request, response: Response) => {
   }
 });
 
+// GET: Verify User Password
+userRouter.get("/:email/:password", async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.params;
+
+    if (!email || !password) {
+      return res.status(400).json({ error: "Email and password are required" });
+    }
+
+    const isMatch = await UserService.verifyUserPassword(email, password);
+
+    if (isMatch) {
+      return res.status(200).json({ message: "Password is correct" });
+    } else {
+      return res.status(401).json({ error: "Incorrect password" });
+    }
+  } catch (error) {
+    console.error("Error verifying user password:", error);
+    res.status(500).json({ error: "Error verifying user password" });
+  }
+});
+
 // POST: Create a User
 userRouter.post("/create", async (req: Request, res: Response) => {
   try {

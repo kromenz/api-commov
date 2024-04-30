@@ -1,5 +1,5 @@
 import { db } from "../utils/db.server";
-import { hashPassword } from "../utils/password";
+import { hashPassword, dehashPassword } from "../utils/password";
 
 type User = {
   uuid: string;
@@ -33,6 +33,26 @@ export const getUser = async (email: string): Promise<User | null> => {
       email,
     },
   });
+};
+
+export const verifyUserPassword = async (
+  email: string,
+  password: string
+): Promise<boolean> => {
+  try {
+    const user = await getUser(email);
+
+    if (!user) {
+      return false;
+    }
+
+    const isMatch = await dehashPassword(user.password, password);
+
+    return isMatch;
+  } catch (error) {
+    console.error("Error verifying user password:", error);
+    throw error;
+  }
 };
 
 //create user
