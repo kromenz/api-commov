@@ -1,6 +1,6 @@
 import { db } from "../utils/db.server";
 
-type Trip = {
+export type Trip = {
   uuid: string;
   description: string;
   name: string;
