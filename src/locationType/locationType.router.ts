@@ -13,6 +13,21 @@ locationTypeRouter.get("/", async (request: Request, response: Response) => {
   }
 });
 
+locationTypeRouter.get("/:name", async (req: Request, res: Response) => {
+  try {
+    const typeName = req.params.name;
+    const uuid = await LocationTypeService.getUuidByName(typeName);
+    if (uuid) {
+      res.status(200).json({ uuid });
+    } else {
+      res.status(404).json({ error: "Tipo de localização não encontrado" });
+    }
+  } catch (error) {
+    console.error("Erro ao buscar UUID por nome:", error);
+    res.status(500).json({ error: "Erro ao buscar UUID por nome" });
+  }
+});
+
 locationTypeRouter.post("/create", async (req: Request, res: Response) => {
   try {
     const locationType = req.body;

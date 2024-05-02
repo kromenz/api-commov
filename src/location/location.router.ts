@@ -44,7 +44,10 @@ locationRouter.put("/update/:uuid", async (req: Request, res: Response) => {
   const locationId = req.params.uuid;
   const updatedLocationData = req.body;
   try {
-    const updatedLocation = await LocationService.updateLocation(locationId, updatedLocationData);
+    const updatedLocation = await LocationService.updateLocation(
+      locationId,
+      updatedLocationData
+    );
     res.status(200).json(updatedLocation);
   } catch (error) {
     console.error("Error updating location:", error);

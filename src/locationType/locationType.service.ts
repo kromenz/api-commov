@@ -14,6 +14,20 @@ export const listLocationTypes = async (): Promise<LocationType[]> => {
   });
 };
 
+// get location type uuid by name
+export const getUuidByName = async (name: string): Promise<string | null> => {
+  try {
+    const locationType = await db.locationType.findFirst({
+      where: { name },
+      select: { uuid: true },
+    });
+    return locationType?.uuid || null;
+  } catch (error) {
+    console.error("Erro ao buscar UUID por nome na camada de serviço:", error);
+    throw error;
+  }
+};
+
 //create location type
 export const createLocationType = async (
   locationTypeData: LocationType

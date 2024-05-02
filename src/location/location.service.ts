@@ -10,7 +10,9 @@ type Location = {
   longitude: number;
 };
 
-export const createLocation = async (locationData: Location): Promise<Location> => {
+export const createLocation = async (
+  locationData: Location
+): Promise<Location> => {
   try {
     const location = await db.location.create({ data: locationData });
     return location;
@@ -20,9 +22,13 @@ export const createLocation = async (locationData: Location): Promise<Location> 
   }
 };
 
-export const getLocationById = async (locationId: string): Promise<Location | null> => {
+export const getLocationById = async (
+  locationId: string
+): Promise<Location | null> => {
   try {
-    const location = await db.location.findUnique({ where: { uuid: locationId } });
+    const location = await db.location.findUnique({
+      where: { uuid: locationId },
+    });
     return location;
   } catch (error) {
     console.error("Error getting location:", error);
