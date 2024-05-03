@@ -8,6 +8,7 @@ import { locationTypeRouter } from "./locationType/locationType.router";
 import { photoRouter } from "./photo/photo.router";
 import { tripRouter } from "./trip/trip.router";
 import { locationRouter } from "./location/location.router";
+import { tripLocationRouter } from "./tripLocation/tripLocation.router";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use("/api/locationType", locationTypeRouter);
 app.use("/api/photo", photoRouter);
 app.use("/api/trip", tripRouter);
 app.use("/api/location", locationRouter);
+app.use("/api/tripLocation", tripLocationRouter);
 
 if (!process.env.PORT) {
   process.exit(1);
