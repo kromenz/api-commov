@@ -8,10 +8,9 @@
     "seed": "node --require esbuild-register prisma/seed.ts"
   },
   "scripts": {
+    "postinstall": "prisma generate",
     "dev": "nodemon src/index.ts",
-    "build": "tsc --project tsconfig.json",
-    "lint": "eslint \"**/*.ts\"",
-    "lint:fix": "npm run lint -- --fix"
+    "build": "tsc --project tsconfig.json"
   },
   "keywords": [],
   "license": "ISC",
