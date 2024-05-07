@@ -5,13 +5,13 @@ type LocationType = {
 };
 
 type User = {
-  firstName: String;
-  lastName: String;
-  avatar: String;
-  username: String;
-  password: String;
-  email: String;
-  type: Boolean;
+  firstName: string;
+  lastName: string;
+  avatar: Buffer | undefined;
+  username: string;
+  password: string;
+  email: string;
+  type: boolean;
 };
 
 async function seed() {
@@ -33,7 +33,7 @@ async function seed() {
 
   await Promise.all(
     getLocationTypes().map((LocationType) => {
-      return db.LocationType.create({
+      return db.locationType.create({
         data: {
           name: LocationType.name,
         },
@@ -49,16 +49,16 @@ function getUsers(): Array<User> {
     {
       firstName: "Rafael",
       lastName: "André",
-      avatar: "",
       username: "kromenz",
       password: "123",
       email: "rafael.pires.andre@ipvc.pt",
       type: true,
+      avatar: undefined,
     },
     {
       firstName: "Diogo",
       lastName: "Pinheiro",
-      avatar: "",
+      avatar: undefined,
       username: "pinhas",
       password: "123",
       email: "pinheirodiogo@ipvc.pt",
@@ -67,7 +67,7 @@ function getUsers(): Array<User> {
     {
       firstName: "Pedro",
       lastName: "Simões",
-      avatar: "",
+      avatar: undefined,
       username: "nx",
       password: "123",
       email: "pedrosimoes@ipvc.pt",
