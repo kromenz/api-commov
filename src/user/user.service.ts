@@ -64,9 +64,6 @@ export const createUser = async (userData: User): Promise<User> => {
       data: {
         ...userData,
         password: hashedPassword,
-        type: false,
-        avatar: Buffer.from(''),
-
       },
     });
 
