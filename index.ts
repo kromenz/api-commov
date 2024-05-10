@@ -3,13 +3,13 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 
 //ROUTERS IMPORTS
-import { userRouter } from "./user/user.router";
-import { locationTypeRouter } from "./locationType/locationType.router";
-import { photoRouter } from "./photo/photo.router";
-import { tripRouter } from "./trip/trip.router";
-import { locationRouter } from "./location/location.router";
-import { tripLocationRouter } from "./tripLocation/tripLocation.router";
-import { userTripRouter } from "./userTrip/userTrip.router";
+import { userRouter } from "./src/user/user.router";
+import { locationTypeRouter } from "./src/locationType/locationType.router";
+import { photoRouter } from "./src/photo/photo.router";
+import { tripRouter } from "./src/trip/trip.router";
+import { locationRouter } from "./src/location/location.router";
+import { tripLocationRouter } from "./src/tripLocation/tripLocation.router";
+import { userTripRouter } from "./src/userTrip/userTrip.router";
 
 dotenv.config();
 
