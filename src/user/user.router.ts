@@ -27,10 +27,10 @@ userRouter.get("/:email", async (request: Request, response: Response) => {
   }
 });
 
-// POST: Verify User Password
-userRouter.post("/verify", async (req, res) => {
+// GET: Verify User Password
+userRouter.get("/:email/:password", async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
+    const { email, password } = req.params;
 
     if (!email || !password) {
       return res.status(400).json({ error: "Email and password are required" });
