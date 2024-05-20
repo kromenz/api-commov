@@ -49,6 +49,34 @@ userRouter.get("/:email/:password", async (req: Request, res: Response) => {
   }
 });
 
+// PUT: Change User Password
+userRouter.put("/:email/:password", async (req: Request, res: Response) => {
+  try {
+    const email: string = req.params.email;
+    const newPassword: string = req.params.password;
+
+    if (!email || !newPassword) {
+      return res
+        .status(400)
+        .json({ error: "Email and new password are required" });
+    }
+
+    const updatedUser = await UserService.updateUserPassword(
+      email,
+      newPassword
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    return res.status(200).json({ message: "Password updated successfully" });
+  } catch (error: any) {
+    console.error("Error updating user password:", error);
+    return res.status(500).json({ error: "Error updating user password" });
+  }
+});
+
 // POST: Create a User
 userRouter.post("/create", async (req: Request, res: Response) => {
   try {

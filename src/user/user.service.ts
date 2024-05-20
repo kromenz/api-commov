@@ -55,6 +55,36 @@ export const verifyUserPassword = async (
   }
 };
 
+// Update user password by email
+export const updateUserPassword = async (
+  email: string,
+  newPassword: string
+): Promise<User | null> => {
+  try {
+    const existingUser = await db.user.findUnique({
+      where: { email },
+    });
+
+    if (!existingUser) {
+      return null;
+    }
+
+    const hashedPassword = await hashPassword(newPassword);
+
+    const updatedUser = await db.user.update({
+      where: { email },
+      data: {
+        password: hashedPassword,
+      },
+    });
+
+    return updatedUser;
+  } catch (error) {
+    console.error("Error updating user password:", error);
+    throw error;
+  }
+};
+
 //create user
 export const createUser = async (userData: User): Promise<User> => {
   try {
