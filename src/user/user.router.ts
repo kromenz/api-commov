@@ -101,6 +101,7 @@ userRouter.put("/update/:email", async (req: Request, res: Response) => {
       return res.status(404).json({ error: "User not found" });
     }
 
+    console.log(`User with email ${email} successfully updated`);
     res.status(200).json(updatedUser);
   } catch (error) {
     console.error("Error updating user:", error);

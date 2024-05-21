@@ -107,7 +107,7 @@ export const createUser = async (userData: User): Promise<User> => {
 // Update user by email
 export const updateUser = async (
   email: string,
-  userData: User
+  userData: Partial<User>
 ): Promise<User | null> => {
   try {
     console.log(`Searching for user with email: ${email}`);
@@ -126,6 +126,7 @@ export const updateUser = async (
       data: userData,
     });
 
+    console.log(`User with email ${email} successfully updated`);
     return updatedUser;
   } catch (error) {
     console.error("Error updating user:", error);

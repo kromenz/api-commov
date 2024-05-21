@@ -37,8 +37,12 @@ if (!process.env.PORT) {
 
 const PORT: number = parseInt(process.env.PORT as string, 10);
 
-app.listen(PORT, () => {
-  /* eslint-disable no-console */
-  console.log(`Listening: http://localhost:${PORT}`);
-  0;
-});
+app
+  .listen(PORT, () => {
+    /* eslint-disable no-console */
+    console.log(`Listening: http://localhost:${PORT}`);
+    0;
+  })
+  .on("error", (err) => {
+    console.error("Server failed to start due to error:", err);
+  });
