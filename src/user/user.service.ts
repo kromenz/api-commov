@@ -110,14 +110,17 @@ export const updateUser = async (
   userData: User
 ): Promise<User | null> => {
   try {
+    console.log(`Searching for user with email: ${email}`);
     const existingUser = await db.user.findUnique({
       where: { email },
     });
 
     if (!existingUser) {
+      console.log(`User with email ${email} not found in database`);
       return null; // User not found
     }
 
+    console.log(`Updating user with email: ${email}`);
     const updatedUser = await db.user.update({
       where: { email },
       data: userData,

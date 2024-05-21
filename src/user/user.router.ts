@@ -94,8 +94,10 @@ userRouter.put("/update/:email", async (req: Request, res: Response) => {
     const email = req.params.email;
     const updatedUserData = req.body;
 
+    console.log(`Received request to update user with email: ${email}`);
     const updatedUser = await UserService.updateUser(email, updatedUserData);
     if (!updatedUser) {
+      console.log(`User with email ${email} not found`);
       return res.status(404).json({ error: "User not found" });
     }
 
