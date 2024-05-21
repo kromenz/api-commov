@@ -89,19 +89,22 @@ userRouter.post("/create", async (req: Request, res: Response) => {
   }
 });
 
-userRouter.put("/update/:email", async (req: Request, res: Response) => {
+// PUT: Update User Information
+userRouter.put("/update", async (req: Request, res: Response) => {
   try {
-    const email = req.params.email;
-    const updatedUserData = req.body;
+    const email = req.body.email;
+    const userData = req.body.userData;
 
-    console.log(`Received request to update user with email: ${email}`);
-    const updatedUser = await UserService.updateUser(email, updatedUserData);
-    if (!updatedUser) {
-      console.log(`User with email ${email} not found`);
-      return res.status(404).json({ error: "User not found" });
+    const user = await UserService.getUser(email);
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ error: `User with email ${email} not found` });
     }
 
-    console.log(`User with email ${email} successfully updated`);
+    const updatedUser = await UserService.updateUser(user.uuid, userData);
+
     res.status(200).json(updatedUser);
   } catch (error) {
     console.error("Error updating user:", error);

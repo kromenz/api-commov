@@ -2,13 +2,12 @@
   "name": "api-commov",
   "version": "1.0.0",
   "description": "Jouneys is a mobile app developed as a university project",
-  "author": "Diogo Pinheiro, Rafael André, Pedo Simões",
+  "author": "Diogo Pinheiro, Rafael André, Pedro Simões",
   "main": "index.js",
   "prisma": {
     "seed": "node --require esbuild-register prisma/seed.ts"
   },
   "scripts": {
-    "postinstall": "prisma generate",
     "dev": "nodemon src/index.ts",
     "build": "tsc --project tsconfig.json"
   },

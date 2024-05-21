@@ -2,9 +2,9 @@ import { db } from "../utils/db.server";
 import { hashPassword, dehashPassword } from "../utils/password";
 
 type User = {
+  email: string;
   uuid: string;
   firstName: string;
-  email: string;
   username: string;
   lastName: string;
   type: boolean;
@@ -104,32 +104,20 @@ export const createUser = async (userData: User): Promise<User> => {
   }
 };
 
-// Update user by email
+// Update user
 export const updateUser = async (
-  email: string,
+  uuid: string,
   userData: Partial<User>
 ): Promise<User | null> => {
   try {
-    console.log(`Searching for user with email: ${email}`);
-    const existingUser = await db.user.findUnique({
-      where: { email },
-    });
-
-    if (!existingUser) {
-      console.log(`User with email ${email} not found in database`);
-      return null; // User not found
-    }
-
-    console.log(`Updating user with email: ${email}`);
     const updatedUser = await db.user.update({
-      where: { email },
+      where: { uuid },
       data: userData,
     });
 
-    console.log(`User with email ${email} successfully updated`);
     return updatedUser;
   } catch (error) {
     console.error("Error updating user:", error);
-    throw error; // Re-throw error for proper handling in the router
+    throw error;
   }
 };

@@ -3,13 +3,13 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 
 //ROUTERS IMPORTS
-import { userRouter } from "./src/user/user.router";
-import { locationTypeRouter } from "./src/locationType/locationType.router";
-import { photoRouter } from "./src/photo/photo.router";
-import { tripRouter } from "./src/trip/trip.router";
-import { locationRouter } from "./src/location/location.router";
-import { tripLocationRouter } from "./src/tripLocation/tripLocation.router";
-import { userTripRouter } from "./src/userTrip/userTrip.router";
+import { userRouter } from "./user/user.router";
+import { locationTypeRouter } from "./locationType/locationType.router";
+import { photoRouter } from "./photo/photo.router";
+import { tripRouter } from "./trip/trip.router";
+import { locationRouter } from "./location/location.router";
+import { tripLocationRouter } from "./tripLocation/tripLocation.router";
+import { userTripRouter } from "./userTrip/userTrip.router";
 
 dotenv.config();
 
@@ -18,8 +18,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (_req: Request, res: Response) => {
-  return res.send("Express Typescript in Vercel");
+// Middleware para logging de requisições
+app.use((req: Request, res: Response, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
 });
 
 //ENTITIES ROUTERS
