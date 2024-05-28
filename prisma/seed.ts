@@ -1,4 +1,5 @@
 import { db } from "../src/utils/db.server";
+import { hashPassword } from "../src/utils/password";
 
 type LocationType = {
   name: string;
@@ -15,6 +16,14 @@ type User = {
 };
 
 async function seed() {
+  const users = getUsers();
+
+  const hashedUsers = await Promise.all(
+    users.map(async (user) => ({
+      ...user,
+      password: await hashPassword(user.password),
+    }))
+  );
   await Promise.all(
     getUsers().map((user) => {
       return db.user.create({
