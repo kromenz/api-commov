@@ -38,8 +38,10 @@ model Location {
   type         LocationType   @relation(fields: [typeId], references: [uuid])
   typeId       String
   rating       Float
-  latitude     Float
-  longitude    Float
+  latitude     Float?
+  longitude    Float?
+  coordinates  Json?          @db.Json
+  date         DateTime
   photos       Photo[]
   TripLocation TripLocation[]
 }
