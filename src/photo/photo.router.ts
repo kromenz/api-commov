@@ -39,6 +39,20 @@ photoRouter.get("/", async (req: Request, res: Response) => {
   }
 });
 
+photoRouter.get("/:locationId", async (req, res) => {
+  const locationId = req.params.locationId;
+  try {
+    const photos = await PhotoService.getPhotosByLocationId(locationId);
+    if (photos.length > 0) {
+      return res.status(200).json(photos);
+    }
+    return res.status(404).json("No photos found for this locationId");
+  } catch (error) {
+    console.error("Error getting photos by locationId:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Get a specific photo
 photoRouter.get("/:uuid", async (req, res) => {
   const photoId = req.params.uuid;

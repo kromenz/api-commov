@@ -3,7 +3,7 @@ import { Buffer } from "buffer";
 
 export type Photo = {
   uuid: string;
-  data: Buffer;
+  data: string;
   locationId: string;
 };
 
@@ -69,6 +69,26 @@ export const updatePhoto = async (
     });
   } catch (error) {
     console.error("Error updating photo:", error);
+    throw error;
+  }
+};
+
+export const getPhotosByLocationId = async (
+  locationId: string
+): Promise<Photo[]> => {
+  try {
+    const photos = await db.photo.findMany({
+      where: { locationId },
+      include: { location: true },
+    });
+
+    return photos.map((photo) => ({
+      uuid: photo.uuid,
+      data: photo.data,
+      locationId: photo.locationId,
+    }));
+  } catch (error) {
+    console.error("Error getting photos by locationId:", error);
     throw error;
   }
 };
