@@ -12,7 +12,7 @@ model User {
   uuid      String     @id @default(uuid())
   firstName String
   lastName  String
-  avatar    String?
+  avatar    String?    @db.Text
   username  String
   password  String
   email     String     @unique
@@ -57,7 +57,7 @@ model LocationType {
 
 model Photo {
   uuid       String   @id @default(uuid())
-  data       String
+  data       String   @db.Text
   location   Location @relation(fields: [locationId], references: [uuid])
   locationId String
 }

@@ -25,7 +25,7 @@ async function seed() {
     }))
   );
   await Promise.all(
-    getUsers().map((user) => {
+    hashedUsers.map((user) => {
       return db.user.create({
         data: {
           firstName: user.firstName,
