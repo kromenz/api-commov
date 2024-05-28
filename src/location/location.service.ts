@@ -8,6 +8,7 @@ type Location = {
   rating: number;
   latitude: number;
   longitude: number;
+  date: Date;
 };
 
 export const createLocation = async (
