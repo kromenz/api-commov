@@ -8,7 +8,7 @@ type LocationType = {
 type User = {
   firstName: string;
   lastName: string;
-  avatar: Buffer | undefined;
+  avatar: string | null;
   username: string;
   password: string;
   email: string;
@@ -62,12 +62,12 @@ function getUsers(): Array<User> {
       password: "123",
       email: "rafael.pires.andre@ipvc.pt",
       type: true,
-      avatar: undefined,
+      avatar: "",
     },
     {
       firstName: "Diogo",
       lastName: "Pinheiro",
-      avatar: undefined,
+      avatar: "",
       username: "pinhas",
       password: "123",
       email: "pinheirodiogo@ipvc.pt",
@@ -76,7 +76,7 @@ function getUsers(): Array<User> {
     {
       firstName: "Pedro",
       lastName: "Simões",
-      avatar: undefined,
+      avatar: "",
       username: "nx",
       password: "123",
       email: "pedrosimoes@ipvc.pt",
