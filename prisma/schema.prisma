@@ -56,7 +56,7 @@ model LocationType {
 
 model Photo {
   uuid       String   @id @default(uuid())
-  data        Bytes
+  data       String   @db.Text
   location   Location @relation(fields: [locationId], references: [uuid])
   locationId String
 }
