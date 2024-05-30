@@ -5,10 +5,15 @@ import * as UserTripService from "./userTrip.service";
 export const userTripRouter = express.Router();
 
 userTripRouter.get("/:user/trips", async (req: Request, res: Response) => {
-  const user: string = req.params.userId;
+  const userId: string = req.params.user;
 
   try {
-    const trips = await UserTripService.tripsByUser(user);
+    const userExists = await UserTripService.userExists(userId);
+    if (!userExists) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const trips = await UserTripService.tripsByUser(userId);
     res.status(200).json(trips);
   } catch (error) {
     console.error("Error mapping trips for user:", error);
