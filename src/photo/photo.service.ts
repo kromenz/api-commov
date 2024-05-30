@@ -1,5 +1,4 @@
 import { db } from "../utils/db.server";
-import { Buffer } from "buffer";
 
 export type Photo = {
   uuid: string;
@@ -9,7 +8,7 @@ export type Photo = {
 
 // Create a new photo
 export const createPhoto = async (photoData: {
-  data: Buffer;
+  data: string;
   locationId: string;
 }): Promise<Photo> => {
   try {
@@ -46,49 +45,23 @@ export const createPhoto = async (photoData: {
 // Update an existing photo
 export const updatePhoto = async (
   photoId: string,
-  updatedPhotoData: { data?: Blob }
+  updatedPhotoData: { data?: string }
 ): Promise<void> => {
   try {
     const { data } = updatedPhotoData;
 
-    let updatedData: Buffer | undefined = undefined;
-
     if (data) {
-      if (Buffer.isBuffer(data)) {
-        updatedData = data as Buffer;
-      } else {
-        updatedData = Buffer.from(await data.arrayBuffer());
-      }
+      await db.photo.update({
+        where: { uuid: photoId },
+        data: {
+          data,
+        },
+      });
+    } else {
+      throw new Error("No data provided to update");
     }
-
-    await db.photo.update({
-      where: { uuid: photoId },
-      data: {
-        data: updatedData,
-      },
-    });
   } catch (error) {
     console.error("Error updating photo:", error);
-    throw error;
-  }
-};
-
-export const getPhotosByLocationId = async (
-  locationId: string
-): Promise<Photo[]> => {
-  try {
-    const photos = await db.photo.findMany({
-      where: { locationId },
-      include: { location: true },
-    });
-
-    return photos.map((photo) => ({
-      uuid: photo.uuid,
-      data: photo.data,
-      locationId: photo.locationId,
-    }));
-  } catch (error) {
-    console.error("Error getting photos by locationId:", error);
     throw error;
   }
 };
