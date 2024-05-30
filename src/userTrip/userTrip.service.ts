@@ -35,7 +35,7 @@ export const userExists = async (userId: string): Promise<boolean> => {
         uuid: userId,
       },
     });
-    return !!user; // Returns true if user exists, false otherwise
+    return !!user;
   } catch (error) {
     console.error("Error checking if user exists:", error);
     throw error;
@@ -52,7 +52,9 @@ export const getAllUserTrips = async (): Promise<UserTripData[]> => {
   }
 };
 
-export const createUserTrip = async (userTripData: UserTripData): Promise<UserTripData> => {
+export const createUserTrip = async (
+  userTripData: UserTripData
+): Promise<UserTripData> => {
   try {
     const createdUserTrip = await db.userTrip.create({
       data: {
@@ -67,7 +69,10 @@ export const createUserTrip = async (userTripData: UserTripData): Promise<UserTr
   }
 };
 
-export const deleteUserTrip = async (userId: string, tripId: string): Promise<void> => {
+export const deleteUserTrip = async (
+  userId: string,
+  tripId: string
+): Promise<void> => {
   try {
     await db.userTrip.deleteMany({
       where: {

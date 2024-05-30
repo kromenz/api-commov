@@ -1,3 +1,4 @@
+import { Location } from "@prisma/client";
 import { db } from "../utils/db.server";
 
 export type TripLocation = {
@@ -38,6 +39,42 @@ export const getTripLocationByIds = async (
   }
 };
 
+export const getAllTripLocations = async (): Promise<TripLocation[]> => {
+  try {
+    const allTripLocations = await db.tripLocation.findMany();
+    return allTripLocations;
+  } catch (error) {
+    console.error("Error getting all trip locations:", error);
+    throw error;
+  }
+};
+
+export const getLocationsByTripId = async (
+  tripId: string
+): Promise<Location[]> => {
+  try {
+    const tripLocations = await db.tripLocation.findMany({
+      where: {
+        tripId: {
+          equals: tripId,
+        },
+      },
+      select: {
+        location: true,
+      },
+    });
+
+    const locations: Location[] = tripLocations.map(
+      (tripLocation) => tripLocation.location
+    );
+
+    return locations;
+  } catch (error) {
+    console.error("Error getting locations by trip ID:", error);
+    throw error;
+  }
+};
+
 export const deleteTripLocationByIds = async (
   tripId: string,
   locationId: string
@@ -48,16 +85,6 @@ export const deleteTripLocationByIds = async (
     });
   } catch (error) {
     console.error("Error deleting trip location by IDs:", error);
-    throw error;
-  }
-};
-
-export const getAllTripLocations = async (): Promise<TripLocation[]> => {
-  try {
-    const allTripLocations = await db.tripLocation.findMany();
-    return allTripLocations;
-  } catch (error) {
-    console.error("Error getting all trip locations:", error);
     throw error;
   }
 };
