@@ -10,7 +10,9 @@ export const tripsByUser = async (userId: string): Promise<Trip[]> => {
   try {
     const userTrips = await db.userTrip.findMany({
       where: {
-        userId,
+        userId: {
+          equals: userId,
+        },
       },
       select: {
         trip: true,
@@ -22,6 +24,20 @@ export const tripsByUser = async (userId: string): Promise<Trip[]> => {
     return trips;
   } catch (error) {
     console.error("Error mapping trips by user ID:", error);
+    throw error;
+  }
+};
+
+export const userExists = async (userId: string): Promise<boolean> => {
+  try {
+    const user = await db.user.findUnique({
+      where: {
+        uuid: userId,
+      },
+    });
+    return !!user; // Returns true if user exists, false otherwise
+  } catch (error) {
+    console.error("Error checking if user exists:", error);
     throw error;
   }
 };
