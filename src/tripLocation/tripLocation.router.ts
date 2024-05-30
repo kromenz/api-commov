@@ -49,6 +49,17 @@ tripLocationRouter.get(
   }
 );
 
+tripLocationRouter.get("/:tripId", async (req: Request, res: Response) => {
+  try {
+    const { tripId } = req.params;
+    const locations = await TripLocationService.getLocationsByTripId(tripId);
+    res.status(200).json(locations);
+  } catch (error) {
+    console.error("Error getting locations by trip ID:", error);
+    res.status(500).json({ error: "Error getting locations by trip ID" });
+  }
+});
+
 tripLocationRouter.delete(
   "/:tripId/:locationId",
   async (req: Request, res: Response) => {
