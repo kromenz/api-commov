@@ -1,6 +1,6 @@
 import { db } from "../utils/db.server";
 
-type Location = {
+export type Location = {
   uuid: string;
   name: string;
   description: string;

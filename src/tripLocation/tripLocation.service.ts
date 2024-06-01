@@ -1,4 +1,4 @@
-import { Location } from "@prisma/client";
+import { Location } from "../location/location.service";
 import { db } from "../utils/db.server";
 
 export type TripLocation = {
@@ -65,7 +65,7 @@ export const getLocationsByTripId = async (
     });
 
     const locations: Location[] = tripLocations.map(
-      (tripLocation) => tripLocation.location
+      (tripLocation: { location: any }) => tripLocation.location
     );
 
     return locations;
