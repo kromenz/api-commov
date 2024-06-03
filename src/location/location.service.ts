@@ -10,17 +10,18 @@ export type Location = {
   longitude: number;
 };
 
-export const createLocation = async (
-  locationData: Location
-): Promise<Location> => {
-  try {
-    const location = await db.location.create({ data: locationData });
-    return location;
-  } catch (error) {
-    console.error("Error creating location:", error);
-    throw error;
-  }
-};
+//AQUI DÁ UM ERRO NO "data", não sei porquê
+// export const createLocation = async (
+//   locationData: Location
+// ): Promise<Location> => {
+//   try {
+//     const location = await db.location.create({ data: locationData });
+//     return location;
+//   } catch (error) {
+//     console.error("Error creating location:", error);
+//     throw error;
+//   }
+// };
 
 export const getLocationById = async (
   locationId: string

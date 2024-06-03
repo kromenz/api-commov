@@ -4,16 +4,16 @@ import * as LocationService from "./location.service";
 
 export const locationRouter = express.Router();
 
-locationRouter.post("/create", async (req: Request, res: Response) => {
-  try {
-    const locationData = req.body;
-    const newLocation = await LocationService.createLocation(locationData);
-    res.status(201).json(newLocation);
-  } catch (error) {
-    console.error("Error creating location:", error);
-    res.status(500).json({ error: "Error creating location" });
-  }
-});
+// locationRouter.post("/create", async (req: Request, res: Response) => {
+//   try {
+//     const locationData = req.body;
+//     const newLocation = await LocationService.createLocation(locationData);
+//     res.status(201).json(newLocation);
+//   } catch (error) {
+//     console.error("Error creating location:", error);
+//     res.status(500).json({ error: "Error creating location" });
+//   }
+// });
 
 locationRouter.get("/:uuid", async (req: Request, res: Response) => {
   const locationId = req.params.uuid;

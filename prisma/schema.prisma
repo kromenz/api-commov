@@ -71,10 +71,10 @@ model TripLocation {
 }
 
 model UserTrip {
-  user   User   @relation(fields: [userId], references: [uuid])
   userId String
-  trip   Trip   @relation(fields: [tripId], references: [uuid])
+  user   User   @relation(fields: [userId], references: [uuid])
   tripId String
+  trip   Trip   @relation(fields: [tripId], references: [uuid])
 
   @@id([userId, tripId])
 }
