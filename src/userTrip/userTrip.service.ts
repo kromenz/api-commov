@@ -1,5 +1,6 @@
 import { db } from "../utils/db.server";
 import { Trip } from "../trip/trip.service";
+import { User } from "@prisma/client";
 
 type UserTripData = {
   userId: string;
@@ -42,6 +43,28 @@ export const userExists = async (userId: string): Promise<boolean> => {
   }
 };
 
+export const getUsersByTrip = async (tripId: string): Promise<User[]> => {
+  try {
+    const userTrips = await db.userTrip.findMany({
+      where: {
+        tripId: {
+          equals: tripId,
+        },
+      },
+      select: {
+        user: true,
+      },
+    });
+
+    const users: User[] = userTrips.map((userTrip) => userTrip.user);
+
+    return users;
+  } catch (error) {
+    console.error("Error fetching users by trip ID:", error);
+    throw error;
+  }
+};
+
 export const getAllUserTrips = async (): Promise<UserTripData[]> => {
   try {
     const userTrips = await db.userTrip.findMany();
@@ -52,7 +75,9 @@ export const getAllUserTrips = async (): Promise<UserTripData[]> => {
   }
 };
 
-export const createUserTrip = async (userTripData: UserTripData): Promise<UserTripData> => {
+export const createUserTrip = async (
+  userTripData: UserTripData
+): Promise<UserTripData> => {
   try {
     const createdUserTrip = await db.userTrip.create({
       data: {
@@ -67,7 +92,10 @@ export const createUserTrip = async (userTripData: UserTripData): Promise<UserTr
   }
 };
 
-export const deleteUserTrip = async (userId: string, tripId: string): Promise<void> => {
+export const deleteUserTrip = async (
+  userId: string,
+  tripId: string
+): Promise<void> => {
   try {
     await db.userTrip.deleteMany({
       where: {

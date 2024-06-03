@@ -21,6 +21,22 @@ userTripRouter.get("/:user/trips", async (req: Request, res: Response) => {
   }
 });
 
+userTripRouter.get("/:tripId", async (req: Request, res: Response) => {
+  const tripId: string = req.params.tripId;
+
+  try {
+    const users = await UserTripService.getUsersByTrip(tripId);
+    if (!users || users.length === 0) {
+      return res.status(404).json({ error: "No users found for this trip" });
+    }
+
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("Error fetching users for trip:", error);
+    res.status(500).json({ error: "Error fetching users for trip" });
+  }
+});
+
 userTripRouter.get("/", async (req: Request, res: Response) => {
   try {
     const trips = await UserTripService.getAllUserTrips();
@@ -42,24 +58,30 @@ userTripRouter.post("/create", async (req: Request, res: Response) => {
   }
 });
 
-userTripRouter.delete("/delete/:userId/:tripId", async (req: Request, res: Response) => {
-  const { userId, tripId } = req.params;
-  try {
-    await UserTripService.deleteUserTrip(userId, tripId);
-    res.status(204).send();
-  } catch (error) {
-    console.error("Error deleting userTrip:", error);
-    res.status(500).json({ error: "Error deleting userTrip" });
+userTripRouter.delete(
+  "/delete/:userId/:tripId",
+  async (req: Request, res: Response) => {
+    const { userId, tripId } = req.params;
+    try {
+      await UserTripService.deleteUserTrip(userId, tripId);
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting userTrip:", error);
+      res.status(500).json({ error: "Error deleting userTrip" });
+    }
   }
-});
+);
 
-userTripRouter.delete("/deleteTripId/:tripId", async (req: Request, res: Response) => {
-  const { tripId } = req.params;
-  try {
-    await UserTripService.deleteUserTripsByTrip(tripId);
-    res.status(204).send();
-  } catch (error) {
-    console.error("Error deleting userTrips by trip:", error);
-    res.status(500).json({ error: "Error deleting userTrips by trip" });
+userTripRouter.delete(
+  "/deleteTripId/:tripId",
+  async (req: Request, res: Response) => {
+    const { tripId } = req.params;
+    try {
+      await UserTripService.deleteUserTripsByTrip(tripId);
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting userTrips by trip:", error);
+      res.status(500).json({ error: "Error deleting userTrips by trip" });
+    }
   }
-});
+);

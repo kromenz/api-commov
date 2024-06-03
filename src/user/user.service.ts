@@ -26,11 +26,13 @@ export const listUsers = async (): Promise<User[]> => {
   });
 };
 
-//get user by email
-export const getUser = async (email: string): Promise<User | null> => {
-  return db.user.findUnique({
+//get by email or username
+export const getUserByEmailOrUsername = async (
+  identifier: string
+): Promise<User | null> => {
+  return db.user.findFirst({
     where: {
-      email,
+      OR: [{ email: identifier }, { username: identifier }],
     },
   });
 };
@@ -40,7 +42,7 @@ export const verifyUserPassword = async (
   password: string
 ): Promise<boolean> => {
   try {
-    const user = await getUser(email);
+    const user = await getUserByEmailOrUsername(email);
 
     if (!user) {
       return false;
