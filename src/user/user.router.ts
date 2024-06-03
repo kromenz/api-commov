@@ -13,11 +13,11 @@ userRouter.get("/", async (request: Request, response: Response) => {
   }
 });
 
-// GET: A single user by email
-userRouter.get("/:email", async (request: Request, response: Response) => {
-  const email: string = request.params.email;
+// GET: A single user by email or username
+userRouter.get("/:identifier", async (request: Request, response: Response) => {
+  const identifier: string = request.params.identifier;
   try {
-    const user = await UserService.getUser(email);
+    const user = await UserService.getUserByEmailOrUsername(identifier);
     if (user) {
       return response.status(200).json(user);
     }
@@ -95,7 +95,7 @@ userRouter.put("/update", async (req: Request, res: Response) => {
     const email = req.body.email;
     const userData = req.body.userData;
 
-    const user = await UserService.getUser(email);
+    const user = await UserService.getUserByEmailOrUsername(email);
 
     if (!user) {
       return res
