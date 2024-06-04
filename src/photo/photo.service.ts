@@ -89,6 +89,26 @@ export const getPhotoById = async (photoId: string): Promise<Photo | null> => {
   }
 };
 
+// GET by LocationId
+export const getPhotosByLocationId = async (
+  locationId: string
+): Promise<Photo[]> => {
+  try {
+    const photos = await db.photo.findMany({
+      where: { locationId },
+    });
+
+    return photos.map((photo) => ({
+      uuid: photo.uuid,
+      data: photo.data,
+      locationId: photo.locationId,
+    }));
+  } catch (error) {
+    console.error("Error getting photos by locationId:", error);
+    throw error;
+  }
+};
+
 // Get all photos
 export const getAllPhotos = async (): Promise<Photo[]> => {
   try {
