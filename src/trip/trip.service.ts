@@ -45,6 +45,18 @@ export const getTripById = async (tripId: string): Promise<Trip | null> => {
   }
 };
 
+export const getTripByName = async (name: string): Promise<Trip[]> => {
+  try {
+    const trips = await db.trip.findMany({
+      where: { name: name },
+    });
+    return trips;
+  } catch (error) {
+    console.error("Error getting trips by name:", error);
+    throw error;
+  }
+};
+
 export const getAllTrips = async (): Promise<Trip[]> => {
   try {
     const trips = await db.trip.findMany();

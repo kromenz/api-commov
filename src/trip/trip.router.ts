@@ -4,7 +4,7 @@ import * as TripService from "./trip.service";
 
 export const tripRouter = express.Router();
 
-// Rota para criar uma nova viagem
+// CREATE
 tripRouter.post("/create", async (req: Request, res: Response) => {
   try {
     const tripData = req.body;
@@ -16,7 +16,7 @@ tripRouter.post("/create", async (req: Request, res: Response) => {
   }
 });
 
-// Rota para atualizar uma viagem existente
+// UPDATE
 tripRouter.put("/update/:uuid", async (req: Request, res: Response) => {
   const tripId = req.params.uuid;
   const updatedTripData = req.body;
@@ -29,7 +29,7 @@ tripRouter.put("/update/:uuid", async (req: Request, res: Response) => {
   }
 });
 
-// Rota para obter uma viagem por ID
+// GET by uuid
 tripRouter.get("/:uuid", async (req: Request, res: Response) => {
   const tripId = req.params.uuid;
   try {
@@ -45,7 +45,7 @@ tripRouter.get("/:uuid", async (req: Request, res: Response) => {
   }
 });
 
-// Rota para obter todas as viagens
+// GET all Trips
 tripRouter.get("/", async (req: Request, res: Response) => {
   try {
     const trips = await TripService.getAllTrips();
@@ -56,7 +56,19 @@ tripRouter.get("/", async (req: Request, res: Response) => {
   }
 });
 
-// Rota para deletar uma viagem por ID
+// GET by name
+tripRouter.get("/name/:name", async (req: Request, res: Response) => {
+  const name = req.params.name;
+  try {
+    const trips = await TripService.getTripByName(name);
+    res.status(200).json(trips);
+  } catch (error) {
+    console.error("Error getting trips:", error);
+    res.status(500).json({ error: "Error getting trips" });
+  }
+});
+
+// DELETE by uuid
 tripRouter.delete("/delete/:uuid", async (req: Request, res: Response) => {
   const tripId = req.params.uuid;
   try {
