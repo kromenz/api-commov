@@ -55,6 +55,18 @@ export const getAllTrips = async (): Promise<Trip[]> => {
   }
 };
 
+export const getTripByName = async (name: string): Promise<Trip[]> => {
+  try {
+    const trips = await db.trip.findMany({
+      where: { name: name },
+    });
+    return trips;
+  } catch (error) {
+    console.error("Error getting trips by name:", error);
+    throw error;
+  }
+};
+
 export const deleteTripById = async (tripId: string): Promise<void> => {
   try {
     await db.trip.delete({ where: { uuid: tripId } });
