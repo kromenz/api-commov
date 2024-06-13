@@ -87,6 +87,7 @@ userRouter.post("/create", async (req: Request, res: Response) => {
       (await UserService.getUserByEmailOrUsername(user.username));
 
     if (existingUser) {
+      console.error("user exists");
       return res.status(400).json({ error: "exists" });
     }
 
