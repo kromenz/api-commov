@@ -81,6 +81,15 @@ userRouter.put("/:email/:password", async (req: Request, res: Response) => {
 userRouter.post("/create", async (req: Request, res: Response) => {
   try {
     const user = req.body;
+
+    const existingUser =
+      (await UserService.getUserByEmailOrUsername(user.email)) ||
+      (await UserService.getUserByEmailOrUsername(user.username));
+
+    if (existingUser) {
+      return res.status(400).json({ error: "exists" });
+    }
+
     const newUser = await UserService.createUser(user);
     res.status(201).json(newUser);
   } catch (error) {
@@ -101,6 +110,16 @@ userRouter.put("/update", async (req: Request, res: Response) => {
       return res
         .status(404)
         .json({ error: `User with email ${email} not found` });
+    }
+
+    if (userData.email || userData.username) {
+      const existingUser =
+        (await UserService.getUserByEmailOrUsername(userData.email)) ||
+        (await UserService.getUserByEmailOrUsername(userData.username));
+
+      if (existingUser && existingUser.uuid !== user.uuid) {
+        return res.status(400).json({ error: "exists" });
+      }
     }
 
     const updatedUser = await UserService.updateUser(user.uuid, userData);
